@@ -11,9 +11,29 @@ services:
     container_name: budgie-api
     environment:
       - PORT=4000
+      - MONGO_URI=mongodb://budgie-admin:P4sSw0rd@db:27017
     expose:
       - 4000
       - 9229
     ports:
       - 4000:4000
       - 9229:9229
+
+  db:
+    image: mongo:6.0.2
+    restart: always
+    container_name: budgie-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - budgie-db-data:/data/db
+
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+
+volumes:
+  budgie-db-data:

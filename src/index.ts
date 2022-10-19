@@ -1,12 +1,11 @@
-import express, { Request, Response } from "express";
+import { app } from "./app";
+import { createDBConnection } from "./db";
 
-const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || "4000";
 
-app.get("/ping", (req: Request, res: Response) => {
-  res.send("pong");
-});
-
-app.listen(PORT, () => {
-  console.log(`Application running on ${PORT}`);
-});
+(async () => {
+  await createDBConnection();
+  app.listen(PORT, () => {
+    console.log(`Application running on ${PORT}`);
+  });
+})();
