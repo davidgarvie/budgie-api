@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { Transaction } from "./types";
 
 let connection: MongoClient;
 
@@ -21,4 +22,10 @@ export function getDBConnection() {
 
 export async function closeDBConnection() {
   await connection.close();
+}
+
+export function getTransactionsCollection() {
+  const database = connection.db("budgie");
+  const collection = database.collection<Transaction>("transactions");
+  return collection;
 }
